@@ -6,6 +6,30 @@
 * **NCBI Protein Record:** [NP_000395.3](https://www.ncbi.nlm.nih.gov/protein/NP_000395.3)
 * **Brief Function Description:** Galactosidase beta 1 is a lysosomal enzyme responsible for hydrolyzing terminal beta-galactose residues in beta-galactosides, including GM1 ganglioside and keratan sulfate, playing an essential role in the degradation of complex carbohydrates, glycolipids, and glycoproteins.
 
+## Analysis Workflow
+
+1. **Data setup and validation**
+   - Declares target parameters (gene <- "GLB1"`, `accession <- "NP_000395.3").
+   - Verifies that required packages (rentrez, ggplot2) are installed.
+   - Automatically initializes local project directories (`data/`, `results/`, and `figures/`).
+
+2. **Data download**
+   - Automatically downloads the full-length protein FASTA sequence directly from NCBI using rentrez::entrez_fetch().
+   - Validates sequence integrity and saves the raw record to data/GLB1.fasta.
+
+3. **Sequence Composition Analysis**
+   - Parses the amino acid sequence to compute the total protein length and absolute/percentage frequencies for all 20 standard amino acids.
+   - Exports the summary metrics and frequency tables to results/.
+
+4. **Motif Prediction**
+   - Scans the polypeptide chain for potential N-linked glycosylation consensus sites matching the pattern $\text{N-X-S/T}$ (where $\text{X} \neq \text{P}$).
+   - Exports detected motif coordinates to results/GLB1_motif_positions.csv.
+
+5. **Visualization & Reporting**
+   - Generates and saves a bar chart of amino acid composition (figures/GLB1_amino_acid_composition.png).
+   - Maps and saves a linear coordinate plot highlighting predicted N-glycosylation sites (figures/GLB1_potential_N_glycosylation.png).
+   - Prints a summary report directly to the R console upon completion.
+
 ## Figures and Descriptions
 
 ### Amino Acid Composition
@@ -29,6 +53,7 @@
 
 4. **Why can glycosylation matter for lysosomal proteins? Does finding a motif prove the protein is glycosylated?**
    * Glycosylation supports proper protein folding, structural stability, protection against proteases, and targeted intracellular transport. However, identifying a consensus motif (`N-X-S/T`) only highlights a potential site rather than confirming actual in vivo glycosylation, which requires experimental validation.
+
 5. **What could happen in the cell if your enzyme did not work properly?**
    * If GLB1 is deficient or dysfunctional, its target substrates (such as GM1 ganglioside and keratan sulfate) cannot be degraded and instead accumulate progressively inside the lysosomes. This leads to lysosomal storage disorder(such as GM1-gangliosidosis), causing cellular engorgement, progressive organelle dysfunction, and eventual cell death.
 
